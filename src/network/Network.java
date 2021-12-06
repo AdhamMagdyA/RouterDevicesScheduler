@@ -1,12 +1,10 @@
 package network;
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class Device extends Thread{
-    private String name;
-    private String type;
+    private final String name;
+    private final String type;
     private String connection;
     
     public Device(){
