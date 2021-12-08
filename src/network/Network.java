@@ -1,8 +1,12 @@
 package network;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 class Router {
     private List<String> connections = new ArrayList();
@@ -113,21 +117,31 @@ class Semaphore{
 
 public class Network {
 
-    public static void main(String[] args) {
-        Router r = new Router(2,4);
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(System.in);
         
-        Device d1 = new Device("d1","mobile");
-        Device d2 = new Device("d2","pc");
-        Device d3 = new Device("d3","tablet");
-        Device d4 = new Device("d4","mobile");
-        r.occupyConnection(d1);
-        d1.start();
-        r.occupyConnection(d2);
-        d2.start();
-        r.occupyConnection(d3);
-        d3.start();
-        r.occupyConnection(d4);
-        d4.start();
+        System.out.println("What is the number of WI-FI Connections?");
+        int connectionsNumber = in.nextInt();
+        System.out.println("What is the number of devices Clients want to connect?");
+        int devicesNumber = in.nextInt();
+
+        Router r = new Router(connectionsNumber,devicesNumber);
+        List<Device> devices = new ArrayList(0);
+        
+        for(int i=0; i<devicesNumber ;i++){
+            BufferedReader bi = new BufferedReader(new InputStreamReader(System.in));
+            String parsedInput[] = bi.readLine().split(" ");
+            
+            String deviceName = parsedInput[0];
+            String deviceType = parsedInput[1];
+            
+            devices.add( new Device(deviceName,deviceType));
+        }
+        
+        for(Device device : devices){
+            r.occupyConnection(device);
+            device.start();
+        }
     }
     
 }
