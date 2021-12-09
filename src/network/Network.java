@@ -1,12 +1,39 @@
 package network;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+class Helper{
+    public static void print(Object o){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("log.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.println(o);
+            pw.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Helper.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Helper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println(o);
+    }
+}
 
 class Router {
     private List<String> connections = new ArrayList();
@@ -46,18 +73,18 @@ class Device extends Thread{
     }
     public void setConnection(String connection){
         this.connection = connection;
-        System.out.println(this.connection + " : " + this.name + " Occupied");
+        Helper.print(this.connection + " : " + this.name + " Occupied");
     }
     
     @Override
     public void run(){
         try {
             Random objGenerator = new Random();
-            System.out.println(this.connection + " : " + this.name + "->" + "login");
+            Helper.print(this.connection + " : " + this.name + "->" + "login");
             sleep( objGenerator.nextInt(5000) );
-            System.out.println(this.connection + " : " + this.name + "->" + "performing online activities");
+            Helper.print(this.connection + " : " + this.name + "->" + "performing online activities");
             sleep( objGenerator.nextInt(5000) );
-            System.out.println(this.connection + " : " + this.name + "->" + "logout");
+            Helper.print(this.connection + " : " + this.name + "->" + "logout");
             Router.releaseConnection();
         } catch (InterruptedException ex) {
             
@@ -90,14 +117,16 @@ class Semaphore{
         while(availableDevices==0){
             waiting = true;
             if(!printed){
-                System.out.println(d + " arrived and waiting");
+                //System.out.println(d + " arrived and waiting");
+                Helper.print(d + " arrived and waiting");
                 printed = true;
             }
             try{ wait(1); }
             catch(InterruptedException e){}
         }
         if(!waiting){
-            System.out.println(d + " arrived");
+            //System.out.println(d + " arrived");
+            Helper.print(d + " arrived");
         }
         availableDevices--;  
     }

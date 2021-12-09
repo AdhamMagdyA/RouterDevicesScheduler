@@ -1,0 +1,20 @@
+(c1) (mobile) arrived
+Connection * : c1 Occupied
+(c2) (tablet) arrived
+Connection * : c2 Occupied
+(c3) (pc) arrived and waiting
+Connection * : c1->login
+Connection * : c2->login
+Connection * : c2->performing online activities
+Connection * : c2->logout
+Connection * : c3 Occupied
+(c4) (mobile) arrived and waiting
+Connection * : c3->login
+Connection * : c1->performing online activities
+Connection * : c1->logout
+Connection * : c4 Occupied
+Connection * : c4->login
+Connection * : c4->performing online activities
+Connection * : c3->performing online activities
+Connection * : c4->logout
+Connection * : c3->logout
